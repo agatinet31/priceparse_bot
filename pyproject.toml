@@ -1,0 +1,55 @@
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+    | venv
+    | alembic
+    | tests
+  )/
+)
+'''
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 79
+known_fastapi=["fastapi","dotenv","sqlalchemy","httpx"]
+known_thirdparty=["app","api","core","crud"]
+sections=["FUTURE","STDLIB","FASTAPI","THIRDPARTY","FIRSTPARTY","LOCALFOLDER"]
+
+[tool.poetry]
+name = "price_parser"
+version = "0.1.0"
+description = "Telegram bot for parsing prices on websites"
+authors = ["Andrey Labutin"]
+
+[tool.poetry.dependencies]
+python = "^3.10.1"
+alembic = "^1.11.1"
+sqlalchemy = "^2.0.16"
+httpx = "^0.24.1"
+aiosqlite = "^0.19.0"
+aiogram = "^3.0.0"
+pandas = "^2.1.0"
+pydantic-settings = "^2.0.3"
+lxml = "^4.9.3"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.15.0"
+black = "^23.3.0"
+isort = "^5.9.3"
+flake8 = "^6.0.0"
+ipython = "^8.10.0"
+mixer = "^7.2.2"
+sqlalchemy-stubs = "^0.4"
+pytest-asyncio = "^0.21.0"
+pytest-sugar = "^0.9.4"
+pytest-deadfixtures = "^2.2.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
