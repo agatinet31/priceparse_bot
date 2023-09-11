@@ -1,0 +1,15 @@
+# Rename to parseprice-bot.service
+[Unit]
+Description=Telegram Parse Price Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/user/telegram-parseprice-bot
+ExecStart=/home/user/telegram-parseprice-bot/venv/bin/python -m bot
+KillMode=process
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

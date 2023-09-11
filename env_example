@@ -1,0 +1,18 @@
+# Токен бота, можно получить у https://t.me/botfather
+BOT_TOKEN=1234567890:AaBbCcDdEeFGgHhIiJjKkLlMmNnOoTEST
+
+# Основной домен для установки webhook
+# WEBHOOK_DOMAIN=feedbackbot.example.com
+
+# Путь к URL webhook на домене
+# WEBHOOK_PATH=/extra/path/from/root
+
+# IP-адрес интерфейса, на котором запускать бота. 0.0.0.0 == на всех интерфейсах
+# APP_HOST=0.0.0.0
+
+# Порт интерфейса, на котором запускать бота
+# APP_PORT=9000
+
+# Адрес собственного сервера Bot API (необязательно)
+# Непустое значение является признаком включения локального режима
+# CUSTOM_BOT_API = http://127.0.0.1:8081

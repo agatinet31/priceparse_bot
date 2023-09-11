@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Text
 
-from app.core.db import Base
+from bot.core.db import Base
 
 
 class LinkProduct(Base):

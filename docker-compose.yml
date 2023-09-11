@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+    bot:
+        build:
+            context: .
+        stop_signal: SIGINT
+        restart: "unless-stopped"
+        env_file: .env
+        volumes:
+            - sqlite_db:/app/.bot.db
+            - files:/app/bot/files
+
+    migrations:
+        build:
+            context: .
+        restart: "no"
+        depends_on:
+            - bot
+        entrypoint: ["alembic", "upgrade", "head"]
+
+volumes:
+  sqlite_db:
+  files:

@@ -4,7 +4,7 @@ from sqlalchemy import Column, Integer, MetaData
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import as_declarative, declared_attr, sessionmaker
 
-from app.core.config import settings
+from bot.core.config import settings
 
 meta = MetaData(
     naming_convention={
@@ -16,7 +16,7 @@ meta = MetaData(
     }
 )
 
-engine = create_async_engine(settings.SQLALCHEMY_DATABASE_URI)
+engine = create_async_engine(settings.sqlalchemy_database_uri)
 
 AsyncSessionLocal = sessionmaker(
     bind=engine,

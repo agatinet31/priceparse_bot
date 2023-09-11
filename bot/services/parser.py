@@ -1,19 +1,18 @@
 import asyncio
 import re
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
+from urllib.parse import urlparse
 
 import httpx
-
-from app.exceptions import PriceParseNotFoundError, PriceParseRequestError
 from lxml.etree import HTML
 from pandas import DataFrame
+
+from bot.core.exceptions import PriceParseNotFoundError, PriceParseRequestError
 
 REQUEST_HEADERS = {
     "Accept": "*/*",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
 }
-
-MONEY = re.compile(r"\d*(\d\.?|\.\d{1,2})")
 
 
 async def parse_price(url: str, xpath: str) -> Decimal:
@@ -28,13 +27,12 @@ async def parse_price(url: str, xpath: str) -> Decimal:
             data = (
                 HTML(response.text)
                 .xpath(f"{xpath}/text()")[0]
-                .translate(str.maketrans("", "", " \n\t\r"))
                 .replace(",", ".")
             )
-            return Decimal(MONEY.search(data).group(0))
+            return Decimal(re.sub(r"[^\d.]", "", data))
     except httpx.HTTPError as exc:
         raise PriceParseRequestError(url, xpath) from exc
-    except (AttributeError, IndexError) as exc:
+    except (AttributeError, IndexError, InvalidOperation) as exc:
         raise PriceParseNotFoundError(url, xpath) from exc
 
 
@@ -45,5 +43,10 @@ async def calc_avg_parse_price(data_frame: DataFrame) -> DataFrame:
         for parse_data in data_frame[["url", "xpath"]].values.tolist()
     ]
     data_frame["price"] = await asyncio.gather(*tasks)
-    grouped = data_frame[["title", "url", "price"]].groupby(["title", "url"])
+    data_frame["domain"] = [
+        urlparse(url.strip()).netloc for url in data_frame["url"]
+    ]
+    grouped = data_frame[["title", "domain", "price"]].groupby(
+        ["title", "domain"]
+    )
     return grouped.mean()

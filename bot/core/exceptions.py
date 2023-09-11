@@ -2,7 +2,7 @@ DEFAULT_REQUEST_ERROR_MSG = "Ошибка получения данных!"
 
 
 class PriceParseError(Exception):
-    """Класс исключения по вопросам."""
+    """Класс исключения парсинга."""
 
     pass
 
@@ -31,3 +31,9 @@ class PriceParseDBNotFoundError(PriceParseError):
             f"Информация для парсинга с идентификтором {product_link_id} "
             "не найдена в БД!"
         )
+
+
+class ImportExcelFileError(Exception):
+    """Класс исключения при импорте Excel файла."""
+
+    pass
